@@ -23,6 +23,10 @@ provider:
   environment:
     tableName: ${env:tableName}
 
+resources:
+  # API Gateway Errors
+  - ${file(resources/api-gateway-errors.yml)}
+
 iamRoleStatements:
   - Effect: Allow
     Action:
