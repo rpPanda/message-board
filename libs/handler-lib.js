@@ -1,4 +1,4 @@
-export default function handler(lambda) {
+export default function handler (lambda) {
     return function (event, context) {
         return Promise.resolve()
             // Run the Lambda
@@ -7,16 +7,16 @@ export default function handler(lambda) {
             .then((responseBody) => [200, responseBody])
             // On failure
             .catch((e) => {
-                return [500, { error: e.message }];
+                return [500, { error: e.message }]
             })
             // Return HTTP response
             .then(([statusCode, body]) => ({
                 statusCode,
                 headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Credentials": true,
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Credentials': true
                 },
-                body: JSON.stringify(body),
-            }));
-    };
+                body: JSON.stringify(body)
+            }))
+    }
 }
