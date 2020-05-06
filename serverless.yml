@@ -20,13 +20,35 @@ provider:
   # the following line. Also, make sure to not
   # commit your .env.
   #
-  #environment:
-  #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
+  environment:
+    tableName: ${env:tableName}
+
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+    - dynamodb:DescribeTable
+    - dynamodb:Query
+    - dynamodb:Scan
+    - dynamodb:GetItem
+    - dynamodb:PutItem
+    - dynamodb:UpdateItem
+    - dynamodb:DeleteItem
+    Resource: "arn:aws:dynamodb:us-east-1:*:*"
 
 functions:
-  hello:
-    handler: handler.hello
+  create:
+    handler: create.main
     events:
-      - http:
-          path: hello
-          method: get
+    - http:
+        path: boards
+        method: post
+        cors: true
+        authorizer: aws_iam
+  get-public:
+    handler: get-public.main
+    events:
+    - http:
+        path: boards/{id}
+        method: get
+        cors: true
+        authorizer: aws_iam
